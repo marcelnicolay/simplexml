@@ -2,7 +2,6 @@ SimpleXML - encoder/decoder
 ======================
 
 SimpleXML is a simple and fast XML encoder/decoder for Python.
-He use xml.dom.minidom present in python 2.6 or later
 
 Installing
 ==========
