@@ -12,6 +12,17 @@ On unix-based systems::
 On windows::
    python setup.py install
 
+Basic usage
+==========
+
+	1. Dictionary encoded to xml
+	>>> import simplexml
+	>>> person = {'person':{'name':'joaquim','age':15,'cars':[{'id':1},{'id':2}]}}
+	>>> simplexml.dumps(person)
+	>>> '<?xml version="1.0" ?><person><cars><car><id>1</id></car><car><id>2</id></car></cars><age>15</age><name><![CDATA[joaquim]]></name></person>'
+
+import simplexml
+
 Contributing
 ============
 
