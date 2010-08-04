@@ -1,7 +1,8 @@
 SimpleXML - encoder/decoder
 ======================
 
-SimpleXML is a simple and fast XML encoder/decoder for Python
+SimpleXML is a simple and fast XML encoder/decoder for Python.
+He use xml.dom.minidom present in python 2.6 or later
 
 Installing
 ==========
@@ -15,12 +16,22 @@ On windows::
 Basic usage
 ==========
 
-	1. Dictionary encoded to xml
+	dictionary to XML
 
 	>>> import simplexml
 	>>> person = {'person':{'name':'joaquim','age':15,'cars':[{'id':1},{'id':2}]}}
 	>>> simplexml.dumps(person)
 	>>> '<?xml version="1.0" ?><person><cars><car><id>1</id></car><car><id>2</id></car></cars><age>15</age><name><![CDATA[joaquim]]></name></person>'
+
+~~~~~~~~~~~~~
+
+	XML to dictionary
+	
+	>>> import simplexml
+	>>> person = simplexml.loads('<?xml version="1.0" ?><person><cars><car><id>1</id></car><car><id>2</id></car></cars><age>15</age><name>joaquim</name></person>')
+	>>> person['person']['name']
+	>>> u'joaquim'
+	
 
 Contributing
 ============
