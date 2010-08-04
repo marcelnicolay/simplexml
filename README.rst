@@ -3,8 +3,6 @@ SimpleXML - encoder/decoder
 
 SimpleXML is a simple and fast XML encoder/decoder for Python.
 
-~~~~~~~~~~~~~
-
 Basic usage
 ==========
 
@@ -24,8 +22,6 @@ Basic usage
 	>>> person['person']['name']
 	>>> u'joaquim'
 	
-
-~~~~~~~~~~~~~
 
 Installing
 ==========
