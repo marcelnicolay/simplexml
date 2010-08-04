@@ -3,14 +3,7 @@ SimpleXML - encoder/decoder
 
 SimpleXML is a simple and fast XML encoder/decoder for Python.
 
-Installing
-==========
-
-On unix-based systems::
-   sudo python setup.py install
-
-On windows::
-   python setup.py install
+~~~~~~~~~~~~~
 
 Basic usage
 ==========
@@ -31,6 +24,17 @@ Basic usage
 	>>> person['person']['name']
 	>>> u'joaquim'
 	
+
+~~~~~~~~~~~~~
+
+Installing
+==========
+
+On unix-based systems::
+   sudo python setup.py install
+
+On windows::
+   python setup.py install
 
 Contributing
 ============
