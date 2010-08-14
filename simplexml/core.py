@@ -33,17 +33,37 @@ def element_from_dict(document, elRoot, data):
 
         elRoot.appendChild(elem)
 
+def isNodeList(elem):
+
+    if not elem.hasChildNodes() or len(elem.childNodes) < 2:
+        return False
+        
+    # identify nodelists
+    nodeListPattern = elem.childNodes[0].nodeName
+    for node in elem.childNodes:
+        if node.nodeName != nodeListPattern:
+            return False
+    return True
+
 def dict_from_element(element, dic):
     
     if element.hasChildNodes():
-        for node in element.childNodes:
-            if node.nodeType == node.TEXT_NODE:
-                dic[element.nodeName] = node.nodeValue
-            else:
-                if node.hasChildNodes and len(node.childNodes) == 1 and node.childNodes[0].nodeType == node.TEXT_NODE:
-                    dic[node.nodeName] = node.childNodes[0].nodeValue
+        
+        if isNodeList(element):
+            nodeList = []
+            for node in element.childNodes:
+                nodeList.append(dict_from_element(node, {}))
+            
+            return nodeList
+        else:
+            for node in element.childNodes:
+                if node.nodeType == node.TEXT_NODE:
+                    dic[element.nodeName] = node.nodeValue
                 else:
-                    dic[node.nodeName] = dict_from_element(node, {})
+                    if node.hasChildNodes and len(node.childNodes) == 1 and node.childNodes[0].nodeType == node.TEXT_NODE:
+                        dic[node.nodeName] = node.childNodes[0].nodeValue
+                    else:
+                        dic[node.nodeName] = dict_from_element(node, {})
         
     return dic
 
