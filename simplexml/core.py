@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import re
 from xml.dom.minidom import getDOMImplementation, parseString
 
 def element_from_dict(document, elRoot, data):
@@ -26,7 +26,7 @@ def element_from_dict(document, elRoot, data):
                 elItem = document.createElement(k[0:len(k)-1])
                 element_from_dict(document, elItem, item)
                 elem.appendChild(elItem)
-        elif isinstance(v, str):
+        elif isinstance(v, str) and re.search("[\<\>\&]", v):
             elem.appendChild(document.createCDATASection(v))
         else:
             elem.appendChild(document.createTextNode(str(v)))

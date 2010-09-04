@@ -15,4 +15,11 @@ def test_can_dumps():
     sometag = {'someTag':{'name':'Should be name', 'child':{'id':90},'itens':[{'type':'Should Be Type item1'},{'type':'Should Be Type item2'}]}}
     response = simplexml.dumps(sometag)
 
-    assert response == '<?xml version="1.0" ?><someTag><itens><iten><type><![CDATA[Should Be Type item1]]></type></iten><iten><type><![CDATA[Should Be Type item2]]></type></iten></itens><name><![CDATA[Should be name]]></name><child><id>90</id></child></someTag>'
+    assert response == '<?xml version="1.0" ?><someTag><itens><iten><type>Should Be Type item1</type></iten><iten><type>Should Be Type item2</type></iten></itens><name>Should be name</name><child><id>90</id></child></someTag>'
+
+def test_can_dumps_diff_cdata():
+
+    sometag = {'someTag':{'value':'hello world', 'scaped':'Should Be <b>bold</b>'}}
+    response = simplexml.dumps(sometag)
+
+    assert response == '<?xml version="1.0" ?><someTag><scaped><![CDATA[Should Be <b>bold</b>]]></scaped><value>hello world</value></someTag>'
