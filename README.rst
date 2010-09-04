@@ -11,7 +11,7 @@ Basic usage
 	>>> import simplexml
 	>>> person = {'person':{'name':'joaquim','age':15,'cars':[{'id':1},{'id':2}]}}
 	>>> simplexml.dumps(person)
-	>>> '<?xml version="1.0" ?><person><cars><car><id>1</id></car><car><id>2</id></car></cars><age>15</age><name><![CDATA[joaquim]]></name></person>'
+	>>> '<?xml version="1.0" ?><person><cars><car><id>1</id></car><car><id>2</id></car></cars><age>15</age><name>joaquim></name></person>'
 
 ~~~~~~~~~~~~~
 
