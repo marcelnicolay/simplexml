@@ -37,7 +37,7 @@ def isNodeList(elem):
 
     if not elem.hasChildNodes() or len(elem.childNodes) < 2:
         return False
-        
+
     # identify nodelists
     nodeListPattern = elem.childNodes[0].nodeName
     for node in elem.childNodes:
@@ -46,14 +46,14 @@ def isNodeList(elem):
     return True
 
 def dict_from_element(element, dic):
-    
+
     if element.hasChildNodes():
-        
+
         if isNodeList(element):
             nodeList = []
             for node in element.childNodes:
                 nodeList.append(dict_from_element(node, {}))
-            
+
             return nodeList
         else:
             for node in element.childNodes:
@@ -64,7 +64,7 @@ def dict_from_element(element, dic):
                         dic[node.nodeName] = node.childNodes[0].nodeValue
                     else:
                         dic[node.nodeName] = dict_from_element(node, {})
-        
+
     return dic
 
 def dumps(data):
@@ -79,11 +79,11 @@ def dumps(data):
     return document.toxml()
 
 def loads(data):
-    
+
     document = parseString(data)
     rootNode = document.documentElement
-    
+
     dictionary = {}
     dictionary[rootNode.nodeName] = dict_from_element(rootNode, {})
-    
+
     return dictionary
