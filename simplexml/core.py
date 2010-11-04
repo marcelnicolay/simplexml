@@ -59,6 +59,8 @@ def dict_from_element(element, dic):
             for node in element.childNodes:
                 if node.nodeType == node.TEXT_NODE:
                     dic[element.nodeName] = node.nodeValue
+                elif node.nodeType == node.CDATA_SECTION_NODE:
+                    dic = node.nodeValue
                 else:
                     if node.hasChildNodes and len(node.childNodes) == 1 and node.childNodes[0].nodeType == node.TEXT_NODE:
                         dic[node.nodeName] = node.childNodes[0].nodeValue

@@ -1,5 +1,11 @@
 import simplexml
 
+def test_can_load_xml_string_with_cdata():
+    docxml = "<someTag><name><![CDATA[Should be name]]></name></someTag>"
+    response = simplexml.loads(docxml)
+
+    assert response['someTag']['name'] == 'Should be name'
+
 def test_can_loads():
 
     docxml = "<someTag><name>Should be name</name><itens><item><type>Should Be Type item1</type></item><item><type>Should Be Type item2</type></item></itens></someTag>"
