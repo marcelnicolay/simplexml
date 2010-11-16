@@ -18,8 +18,8 @@ from simplexml import __version__
 setup(
     name = 'simplexml',
     version = __version__,
-    description = "simplexml",
-    long_description = """simplexml""",
+    description = "SimpleXML is a simple and fast XML encoder/decoder for Python",
+    long_description = """SimpleXML is a simple and fast XML encoder/decoder for Python.""",
     keywords = 'simplexml xml',
     author = 'Marcel Nicolay',
     author_email = 'marcel.nicolay@gmail.com',
