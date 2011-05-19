@@ -16,22 +16,33 @@ from xml.dom.minidom import getDOMImplementation, parseString
 
 def element_from_dict(document, elRoot, data):
     for k, v in data.iteritems():
-        elem = document.createElement(k)
-
+        
         if isinstance(v, dict):
-            element_from_dict(document, elem, v)
-        elif isinstance(v, list):
             elem = document.createElement(k)
-            for item in v:
-                elItem = document.createElement(k[0:len(k)-1])
-                element_from_dict(document, elItem, item)
-                elem.appendChild(elItem)
+            element_from_dict(document, elem, v)
+            elRoot.appendChild(elem)
+        elif isinstance(v, list):
+            if k.endswith("s"):
+                elem = document.createElement(k)
+                for item in v:
+                        elItem = document.createElement(k[0:len(k)-1])
+                        element_from_dict(document, elItem, item)
+                        elem.appendChild(elItem)
+                elRoot.appendChild(elem)
+            else:
+                for item in v:
+                    elItem = document.createElement(k)
+                    element_from_dict(document, elItem, item)
+                    elRoot.appendChild(elItem)
+                    
         elif isinstance(v, str) and re.search("[\<\>\&]", v):
+            elem = document.createElement(k)
             elem.appendChild(document.createCDATASection(v))
+            elRoot.appendChild(elem)
         else:
+            elem = document.createElement(k)
             elem.appendChild(document.createTextNode(str(v)))
-
-        elRoot.appendChild(elem)
+            elRoot.appendChild(elem)
 
 def isNodeList(elem):
 
@@ -65,7 +76,12 @@ def dict_from_element(element, dic):
                     if node.hasChildNodes and len(node.childNodes) == 1 and node.childNodes[0].nodeType == node.TEXT_NODE:
                         dic[node.nodeName] = node.childNodes[0].nodeValue
                     else:
-                        dic[node.nodeName] = dict_from_element(node, {})
+                        if dic.has_key(node.nodeName):
+                            if type(dic[node.nodeName]) != type([]):
+                                dic[node.nodeName] = [dic[node.nodeName]]
+                            dic[node.nodeName].append(dict_from_element(node, {}))
+                        else:
+                            dic[node.nodeName] = dict_from_element(node, {})
 
     return dic
 
@@ -75,7 +91,11 @@ def dumps(data):
     document = implementation.createDocument(None, rootName, None)
 
     rootNode = document.documentElement
-
+    if rootValue.has_key("_attrs"):
+        for name,value in rootValue["_attrs"].iteritems():
+            rootNode.setAttribute(name, value)      
+        del(rootValue["_attrs"])
+    
     element_from_dict(document, rootNode,  rootValue)
 
     return document.toxml()
