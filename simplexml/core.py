@@ -15,6 +15,13 @@ import re
 from xml.dom.minidom import getDOMImplementation, parseString
 
 def element_from_dict(document, elRoot, data):
+    
+    if type(data) == list:
+        for item in data:
+            element_from_dict(document, elRoot, item)
+            
+        return
+        
     for k, v in data.iteritems():
         
         if isinstance(v, dict):
@@ -86,12 +93,13 @@ def dict_from_element(element, dic):
     return dic
 
 def dumps(data):
+    
     rootName, rootValue = data.items()[0]
     implementation = getDOMImplementation()
     document = implementation.createDocument(None, rootName, None)
 
     rootNode = document.documentElement
-    if rootValue.has_key("_attrs"):
+    if type(rootValue) == dict and rootValue.has_key("_attrs"):
         for name,value in rootValue["_attrs"].iteritems():
             rootNode.setAttribute(name, value)      
         del(rootValue["_attrs"])
