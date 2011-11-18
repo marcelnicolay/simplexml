@@ -26,6 +26,11 @@ def element_from_dict(document, elRoot, data):
         
         if isinstance(v, dict):
             elem = document.createElement(k)
+            if v.has_key("_attrs"):
+                for name,value in v["_attrs"].iteritems():
+                    elem.setAttribute(name, value)
+                del(v["_attrs"])
+                
             element_from_dict(document, elem, v)
             elRoot.appendChild(elem)
         elif isinstance(v, list):

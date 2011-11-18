@@ -57,6 +57,13 @@ def test_can_dumps_node_with_root_attr():
     
     assert response == '<?xml version="1.0" ?><someTag attr="value"><child><id>90</id></child><itens><iten><type>Should Be Type item1</type></iten><iten><type>Should Be Type item2</type></iten></itens><name>Should be name</name></someTag>'
 
+def test_can_dumps_node_with_attr():
+
+    sometag = {'someTag':{'_attrs':{'attr':'value'},'name':'Should be name', 'child':{'_attrs':{'attr1':'value1'}, 'id':90},'itens':[{'type':'Should Be Type item1'},{'type':'Should Be Type item2'}]}}
+    response = simplexml.dumps(sometag)
+
+    assert response == '<?xml version="1.0" ?><someTag attr="value"><child attr1="value1"><id>90</id></child><itens><iten><type>Should Be Type item1</type></iten><iten><type>Should Be Type item2</type></iten></itens><name>Should be name</name></someTag>'
+
 def test_can_dumps_with_list_non_plural():
 
     sometag = {'someTag':{'name':'Should be name', 'child':{'id':90},'item':[{'type':'Should Be Type item1'},{'type':'Should Be Type item2'}]}}
