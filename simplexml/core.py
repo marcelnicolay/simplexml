@@ -26,12 +26,19 @@ def element_from_dict(document, elRoot, data):
         
         if isinstance(v, dict):
             elem = document.createElement(k)
+
             if v.has_key("_attrs"):
                 for name,value in v["_attrs"].iteritems():
-                    elem.setAttribute(name, value)
+                    elem.setAttribute(name, str(value))
                 del(v["_attrs"])
+            
+            if v.has_key('_value'):
+                value = v.get('_value')
+                textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
+                elem.appendChild(textNode)
+            else:
+                element_from_dict(document, elem, v)
                 
-            element_from_dict(document, elem, v)
             elRoot.appendChild(elem)
         elif isinstance(v, list):
             if k.endswith("s"):
@@ -44,7 +51,18 @@ def element_from_dict(document, elRoot, data):
             else:
                 for item in v:
                     elItem = document.createElement(k)
-                    element_from_dict(document, elItem, item)
+                    if item.has_key("_attrs"):
+                        for name,value in item["_attrs"].iteritems():
+                            elItem.setAttribute(name, str(value))
+                        del(item["_attrs"])
+
+                    if item.has_key('_value'):
+                        value = item.get('_value')
+                        textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
+                        elItem.appendChild(textNode)
+                    else:
+                        element_from_dict(document, elItem, item)
+
                     elRoot.appendChild(elItem)
                     
         elif isinstance(v, str) and re.search("[\<\>\&]", v):

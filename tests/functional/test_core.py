@@ -71,6 +71,20 @@ def test_can_dumps_with_list_non_plural():
 
     assert response == '<?xml version="1.0" ?><someTag><item><type>Should Be Type item1</type></item><item><type>Should Be Type item2</type></item><name>Should be name</name><child><id>90</id></child></someTag>'
 
+def test_can_dumps_with_list_non_plural_with_attrs():
+
+    sometag = {'someTag':{'name':'Should be name', 'child':{'id':90},'item':[{'_attrs':{'attr':'value'}, 'type':'Should Be Type item1'},{'type':'Should Be Type item2'}]}}
+    response = simplexml.dumps(sometag)
+
+    assert response == '<?xml version="1.0" ?><someTag><item attr="value"><type>Should Be Type item1</type></item><item><type>Should Be Type item2</type></item><name>Should be name</name><child><id>90</id></child></someTag>'
+
+def test_can_dumps_with_node_value():
+
+    sometag = {'someTag':{'name':'Should be name', 'child':{'id':90},'item':[{'type':{'_attrs':{'id':1}, '_value': 'Should Be Type item1'}},{'type':'Should Be Type item2'}]}}
+    response = simplexml.dumps(sometag)
+
+    assert response == '<?xml version="1.0" ?><someTag><item><type id="1">Should Be Type item1</type></item><item><type>Should Be Type item2</type></item><name>Should be name</name><child><id>90</id></child></someTag>'
+
 def test_can_dumps_with_first_node_list():
 
     sometag = {'someTags':[{'someTag':{'nome':'Should Be Nome'}} , {'someTag':{'nome':'Should Be Nome'}}]}
