@@ -6,4 +6,4 @@ clean:
 functional: clean
 	@echo "Running simplexml functional tests..."
 	@export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/simplexml  &&  \
-	@nosetests -s --verbose --with-coverage --cover-package=simplexml tests/functional/*
+		nosetests -s --verbose --with-coverage --cover-package=simplexml tests/functional/*
