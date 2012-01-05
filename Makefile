@@ -10,6 +10,9 @@ functional: clean
 	@export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/simplexml  &&  \
 		nosetests -s --verbose --with-coverage --cover-package=simplexml tests/functional/*
 
+ci_requirements:
+	/opt/python/bin/pip install -r `pwd`/requirements.txt
+
 ci_functional: clean
 	PYTHONPATH=`pwd`:`pwd`/simplexml PATH="/home/quatix/virtualenv/simplexml/bin:$PATH" \
 		nosetests -s --verbose tests/functional/*
