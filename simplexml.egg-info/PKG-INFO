@@ -1,8 +1,8 @@
 Metadata-Version: 1.0
-Name: python-simplexml
-Version: 0.1.4
+Name: simplexml
+Version: 0.1.3
 Summary: SimpleXML is a simple and fast XML encoder/decoder for Python
-Home-page: https://github.com/marcelnicolay/simplexml
+Home-page: http://www.python-simplexml.org
 Author: Marcel Nicolay
 Author-email: marcel.nicolay@gmail.com
 License: OSI

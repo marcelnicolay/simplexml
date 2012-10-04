@@ -4,4 +4,4 @@ build/*
 */*.pyc
 .coverage
 .egg-info
-simplexml.egg-info/*
+.egg-info/*
