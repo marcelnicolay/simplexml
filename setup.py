@@ -19,7 +19,7 @@ setup(
     keywords = 'simplexml xml',
     author = 'Marcel Nicolay',
     author_email = 'marcel.nicolay@gmail.com',
-    url = 'http://www.python-simplexml.org',
+    url = 'https://github.com/marcelnicolay/simplexml',
     license = 'OSI',
     classifiers = ['Development Status :: 4 - Beta',
                    'Intended Audience :: Developers',
