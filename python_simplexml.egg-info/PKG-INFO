@@ -1,0 +1,20 @@
+Metadata-Version: 1.0
+Name: python-simplexml
+Version: 0.1.4
+Summary: SimpleXML is a simple and fast XML encoder/decoder for Python
+Home-page: http://www.python-simplexml.org
+Author: Marcel Nicolay
+Author-email: marcel.nicolay@gmail.com
+License: OSI
+Description: SimpleXML is a simple and fast XML encoder/decoder for Python.
+Keywords: simplexml xml
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved
+Classifier: Natural Language :: English
+Classifier: Natural Language :: Portuguese (Brazilian)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Topic :: Software Development :: Libraries

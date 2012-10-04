@@ -1,0 +1,8 @@
+setup.cfg
+setup.py
+python_simplexml.egg-info/PKG-INFO
+python_simplexml.egg-info/SOURCES.txt
+python_simplexml.egg-info/dependency_links.txt
+python_simplexml.egg-info/top_level.txt
+simplexml/__init__.py
+simplexml/core.py
