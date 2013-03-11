@@ -22,17 +22,17 @@ def element_from_dict(document, elRoot, data):
             
         return
         
-    for k, v in data.iteritems():
+    for k, v in data.items():
         
         if isinstance(v, dict):
             elem = document.createElement(k)
 
-            if v.has_key("_attrs"):
-                for name,value in v["_attrs"].iteritems():
+            if '_attrs' in v:
+                for name,value in v["_attrs"].items():
                     elem.setAttribute(name, str(value))
                 del(v["_attrs"])
             
-            if v.has_key('_value'):
+            if '_value' in v:
                 value = v.get('_value')
                 textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
                 elem.appendChild(textNode)
@@ -51,12 +51,12 @@ def element_from_dict(document, elRoot, data):
             else:
                 for item in v:
                     elItem = document.createElement(k)
-                    if item.has_key("_attrs"):
-                        for name,value in item["_attrs"].iteritems():
+                    if '_attrs' in item:
+                        for name,value in item["_attrs"].items():
                             elItem.setAttribute(name, str(value))
                         del(item["_attrs"])
 
-                    if item.has_key('_value'):
+                    if '_value' in item:
                         value = item.get('_value')
                         textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
                         elItem.appendChild(textNode)
@@ -106,7 +106,7 @@ def dict_from_element(element, dic):
                     if node.hasChildNodes and len(node.childNodes) == 1 and node.childNodes[0].nodeType == node.TEXT_NODE:
                         dic[node.nodeName] = node.childNodes[0].nodeValue
                     else:
-                        if dic.has_key(node.nodeName):
+                        if node.nodeName in dic:
                             if type(dic[node.nodeName]) != type([]):
                                 dic[node.nodeName] = [dic[node.nodeName]]
                             dic[node.nodeName].append(dict_from_element(node, {}))
@@ -117,13 +117,14 @@ def dict_from_element(element, dic):
 
 def dumps(data):
     
-    rootName, rootValue = data.items()[0]
+    data_items = [(key, values) for key, values in data.items()]
+    rootName, rootValue = data_items[0]
     implementation = getDOMImplementation()
     document = implementation.createDocument(None, rootName, None)
 
     rootNode = document.documentElement
-    if type(rootValue) == dict and rootValue.has_key("_attrs"):
-        for name,value in rootValue["_attrs"].iteritems():
+    if type(rootValue) == dict and '_attrs' in rootValue:
+        for name,value in rootValue["_attrs"].items():
             rootNode.setAttribute(name, value)      
         del(rootValue["_attrs"])
     
