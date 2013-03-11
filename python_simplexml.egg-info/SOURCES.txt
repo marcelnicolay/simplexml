@@ -6,3 +6,5 @@ python_simplexml.egg-info/dependency_links.txt
 python_simplexml.egg-info/top_level.txt
 simplexml/__init__.py
 simplexml/core.py
+tests/__init__.py
+tests/test_core.py
