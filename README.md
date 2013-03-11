@@ -1,6 +1,8 @@
 SimpleXML - encoder/decoder
 ======================
 
+![Travis CI](https://api.travis-ci.org/kplaube/simplexml.png)
+
 SimpleXML is a simple and fast XML encoder/decoder for Python.
 
 # Basic usage
