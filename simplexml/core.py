@@ -34,7 +34,7 @@ def element_from_dict(document, elRoot, data):
             
             if '_value' in v:
                 value = v.get('_value')
-                textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
+                textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(v) if type(v) == str else unicode(v))
                 elem.appendChild(textNode)
             else:
                 element_from_dict(document, elem, v)
@@ -58,7 +58,7 @@ def element_from_dict(document, elRoot, data):
 
                     if '_value' in item:
                         value = item.get('_value')
-                        textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
+                        textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(v) if type(v) == str else unicode(v))
                         elItem.appendChild(textNode)
                     else:
                         element_from_dict(document, elItem, item)
@@ -71,7 +71,7 @@ def element_from_dict(document, elRoot, data):
             elRoot.appendChild(elem)
         else:
             elem = document.createElement(k)
-            elem.appendChild(document.createTextNode(str(v)))
+            elem.appendChild(document.createTextNode(str(v) if type(v) == str else unicode(v)))
             elRoot.appendChild(elem)
 
 def isNodeList(elem):
