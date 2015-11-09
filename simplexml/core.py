@@ -86,6 +86,20 @@ def isNodeList(elem):
             return False
     return True
 
+def dict_from_attributes(attributes, nodeValue):
+    if len(attributes.keys()):
+        dic = {
+            '_attrs' : {},
+        }
+        for a, v in attributes.items():
+            dic['_attrs'][a] = v
+        if nodeValue:
+            dic['_value'] = nodeValue
+        return dic
+    else:
+        return nodeValue
+
+
 def dict_from_element(element, dic):
 
     if element.hasChildNodes():
@@ -99,12 +113,12 @@ def dict_from_element(element, dic):
         else:
             for node in element.childNodes:
                 if node.nodeType == node.TEXT_NODE:
-                    dic[element.nodeName] = node.nodeValue
+                    dic[element.nodeName] = dict_from_attributes(element.attributes, node.nodeValue)
                 elif node.nodeType == node.CDATA_SECTION_NODE:
-                    dic = node.nodeValue
+                    dic = dict_from_attributes(element.attributes, node.nodeValue)
                 else:
                     if node.hasChildNodes and len(node.childNodes) == 1 and node.childNodes[0].nodeType == node.TEXT_NODE:
-                        dic[node.nodeName] = node.childNodes[0].nodeValue
+                        dic[node.nodeName] = dict_from_attributes(node.attributes, node.childNodes[0].nodeValue)
                     else:
                         if node.nodeName in dic:
                             if type(dic[node.nodeName]) != type([]):
@@ -112,6 +126,8 @@ def dict_from_element(element, dic):
                             dic[node.nodeName].append(dict_from_element(node, {}))
                         else:
                             dic[node.nodeName] = dict_from_element(node, {})
+    elif len(element.attributes.keys()):
+        dic[element.nodeName] = dict_from_attributes(element.attributes, None)
 
     return dic
 
