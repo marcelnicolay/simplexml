@@ -115,7 +115,7 @@ def dict_from_element(element, dic):
 
     return dic
 
-def dumps(data):
+def dumps(data, pretty=False):
     
     data_items = [(key, values) for key, values in data.items()]
     rootName, rootValue = data_items[0]
@@ -130,6 +130,8 @@ def dumps(data):
     
     element_from_dict(document, rootNode,  rootValue)
 
+    if pretty == True:
+        return document.toprettyxml()
     return document.toxml()
 
 def loads(data):
