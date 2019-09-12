@@ -108,3 +108,10 @@ def test_can_dumps_with_first_node_list():
     response = simplexml.dumps(sometag)
 
     assert '<someTags><someTag><nome>Should Be Nome</nome></someTag><someTag><nome>Should Be Nome</nome></someTag></someTags>' in response
+
+def test_can_dumps_with_pretty():
+
+    sometag = {'someTags': [{'someTag': {'nome': 'Should Be Nome'}}, {'someTag': {'nome': 'Should Be Nome'}}]}
+    response = simplexml.dumps(sometag, pretty=True)
+
+    assert '\n<someTags>\n\t<someTag>\n\t\t<nome>Should Be Nome</nome>\n\t</someTag>\n\t<someTag>\n\t\t<nome>Should Be Nome</nome>\n\t</someTag>\n</someTags>\n' in response
