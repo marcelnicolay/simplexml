@@ -18,6 +18,20 @@ def test_can_loads():
     assert type(response['someTag']['itens']) == list
     assert response['someTag']['itens'][0]['type'] == 'Should Be Type item1'
 
+def test_can_loads_attributes():
+
+    docxml = u'<?xml version="1.0" ?><tags><tag attr="should be tag value"/><tag attr="value2">value3</tag></tags>'
+    response = simplexml.loads(docxml)
+
+    assert type(response['tags']) == list
+    assert type(response['tags'][0]) == dict
+
+    assert response['tags'][0]['tag']['_attrs']['attr'] == 'should be tag value'
+    assert response['tags'][1]['tag']['_attrs']['attr'] == 'value2'
+    assert response['tags'][1]['tag']['_value'] == 'value3'
+
+    final_docxml = simplexml.dumps(response)
+    assert docxml == final_docxml
 
 def test_can_loads_list_plural():
 
@@ -52,7 +66,6 @@ def test_can_dumps():
     assert '<name>Should be name</name>' in response
     assert '<child><id>90</id></child>' in response
 
-
 def test_can_dumps_diff_cdata():
 
     sometag = {'someTag': {'value': 'hello world', 'scaped': 'Should Be <b>bold</b>'}}
@@ -86,10 +99,9 @@ def test_can_dumps_with_list_non_plural():
 
 def test_can_dumps_with_list_non_plural_with_attrs():
 
-    sometag = {'someTag': {'name': 'Should be name', 'child': {'id': 90}, 'item': [{'_attrs': {'attr': 'value'}, 'type': 'Should Be Type item1'}, {'type': 'Should Be Type item2'}]}}
+    sometag = {'someTag': {'name': 'Should be name', 'child': {'id': 90}, 'item': [{'_attrs': {'attr': 'value'}, '_value':'item value'}, {'type': 'Should Be Type item2'}]}}
     response = simplexml.dumps(sometag)
-
-    assert '<item attr="value"><type>Should Be Type item1</type></item><item><type>Should Be Type item2</type></item>' in response
+    assert '<item attr="value">item value</item><item><type>Should Be Type item2</type></item>' in response
 
 
 def test_can_dumps_with_node_value():
