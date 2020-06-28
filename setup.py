@@ -20,7 +20,7 @@ setup(
     author = 'Marcel Nicolay',
     author_email = 'marcel.nicolay@gmail.com',
     url = 'https://github.com/marcelnicolay/simplexml',
-    license = 'OSI',
+    license = 'GPL-3.0',
     classifiers = ['Development Status :: 4 - Beta',
                    'Intended Audience :: Developers',
                    'License :: OSI Approved',
