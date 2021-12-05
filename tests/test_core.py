@@ -108,3 +108,22 @@ def test_can_dumps_with_first_node_list():
     response = simplexml.dumps(sometag)
 
     assert '<someTags><someTag><nome>Should Be Nome</nome></someTag><someTag><nome>Should Be Nome</nome></someTag></someTags>' in response
+
+def test_can_dumps_with_single_simple_node():
+    sometag = {'someTag': 'Should be Name'}
+    response = simplexml.dumps(sometag)
+
+    assert '<someTag>Should be Name</someTag>' in response
+
+def test_can_dumps_with_root_node_containing_text_node():
+    sometag = {'someTag': {'_attrs': {'id': '1'}, '_value': 'Should be value'}}
+    response = simplexml.dumps(sometag)
+    
+    assert '<someTag id="1">Should be value</someTag>' in response
+
+def test_repeated_calls_to_dumps_preserves_dict_attrs():
+    sometag = {'someTag': {'_attrs': {'id': '1'}, '_value': 'Should be value'}}
+    response1 = simplexml.dumps(sometag)
+    response2 = simplexml.dumps(sometag)
+    
+    assert '<someTag id="1">Should be value</someTag>' in response2
