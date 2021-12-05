@@ -14,6 +14,11 @@
 import re
 from xml.dom.minidom import getDOMImplementation, parseString
 
+def exclude_attrs_nodes_from_dict(data):
+    if type(data) == dict:
+        return {x: data[x] for x in data if x != '_attrs'}
+    return data
+
 def element_from_dict(document, elRoot, data):
     
     if type(data) == list:
@@ -30,22 +35,23 @@ def element_from_dict(document, elRoot, data):
             if '_attrs' in v:
                 for name,value in v["_attrs"].items():
                     elem.setAttribute(name, str(value))
-                del(v["_attrs"])
-            
+           
             if '_value' in v:
                 value = v.get('_value')
                 textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
                 elem.appendChild(textNode)
+
             else:
-                element_from_dict(document, elem, v)
+                element_from_dict(document, elem, exclude_attrs_nodes_from_dict(v))
                 
             elRoot.appendChild(elem)
+
         elif isinstance(v, list):
             if k.endswith("s"):
                 elem = document.createElement(k)
                 for item in v:
                         elItem = document.createElement(k[0:len(k)-1])
-                        element_from_dict(document, elItem, item)
+                        element_from_dict(document, elItem, exclude_attrs_nodes_from_dict(item))
                         elem.appendChild(elItem)
                 elRoot.appendChild(elem)
             else:
@@ -54,14 +60,13 @@ def element_from_dict(document, elRoot, data):
                     if '_attrs' in item:
                         for name,value in item["_attrs"].items():
                             elItem.setAttribute(name, str(value))
-                        del(item["_attrs"])
 
                     if '_value' in item:
                         value = item.get('_value')
                         textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
                         elItem.appendChild(textNode)
                     else:
-                        element_from_dict(document, elItem, item)
+                        element_from_dict(document, elItem, exclude_attrs_nodes_from_dict(item))
 
                     elRoot.appendChild(elItem)
                     
@@ -126,9 +131,23 @@ def dumps(data):
     if type(rootValue) == dict and '_attrs' in rootValue:
         for name,value in rootValue["_attrs"].items():
             rootNode.setAttribute(name, value)      
-        del(rootValue["_attrs"])
+
+    if type(rootValue) == dict and '_value' in rootValue:
+        # Handles case where root node contains single text node - allowing for attribute definition and CDATA handling
+        value = rootValue.get('_value')
+        textNode = document.createCDATASection(value) if isinstance(value, str) and re.search("[\<\>\&]", value) else document.createTextNode(str(value))
+        rootNode.appendChild(textNode)
+        # Text  or CDATA node cannot have children
+        return document.toxml()
+
+
+    if type(rootValue) == str:
+        # Handles case where root node contains single text node - simple case not allowing for attribute definition
+        text = document.createTextNode(rootValue)
+        rootNode.appendChild(text)
+        return document.toxml()
     
-    element_from_dict(document, rootNode,  rootValue)
+    element_from_dict(document, rootNode,  exclude_attrs_nodes_from_dict(rootValue))
 
     return document.toxml()
 
